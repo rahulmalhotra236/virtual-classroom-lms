@@ -6,6 +6,7 @@ const {
 const {
   getAllCoursesController,
   createCourseController,
+  getSingleCoursesController,
 } = require("../controllers/courses.controller")
 const { createCourse } = require("../middlewares/create-course.middleware")
 const { protect } = require("../middlewares/protect.middleware")
@@ -17,5 +18,6 @@ router.post("/login", loginController)
 
 router.post("/create-course", protect, createCourse, createCourseController)
 router.get("/courses", protect, getAllCoursesController)
+router.get("/courses/:id", protect, getSingleCoursesController)
 
 module.exports = router
