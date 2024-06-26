@@ -27,6 +27,13 @@ module.exports.createCourseController = async (req, res) => {
   // }
 }
 
-module.exports.getAllCoursesController = (req, res) => {
-  res.send("don")
+module.exports.getAllCoursesController = async (req, res) => {
+  let user = await registerModel.findOne({ email: req.user.email })
+
+  if (!user) {
+    return res.status(400).json({ message: "no user found - Please login!" })
+  }
+
+  let courses = await courseModel.find()
+  res.status(200).json(courses)
 }
