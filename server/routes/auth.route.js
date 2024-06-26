@@ -2,6 +2,7 @@ const express = require("express")
 const {
   registerController,
   loginController,
+  logoutController,
 } = require("../controllers/auth.controller")
 const {
   getAllCoursesController,
@@ -15,6 +16,7 @@ const router = express.Router()
 
 router.post("/register", registerController)
 router.post("/login", loginController)
+router.get("/logout", logoutController)
 
 router.post("/create-course", protect, createCourse, createCourseController)
 router.get("/courses", protect, getAllCoursesController)

@@ -83,3 +83,12 @@ module.exports.loginController = async (req, res) => {
     res.status(400).json(`Error in loginController: ${error.message}`)
   }
 }
+
+module.exports.logoutController = (req, res) => {
+  res
+    .cookie("token", "", {
+      httpOnly: true,
+      secure: true,
+    })
+    .json({ message: "user logged out!" })
+}
