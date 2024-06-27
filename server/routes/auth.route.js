@@ -8,8 +8,10 @@ const {
   getAllCoursesController,
   createCourseController,
   getSingleCoursesController,
+  editCoursesController,
+  deleteCoursesController,
 } = require("../controllers/courses.controller")
-const { createCourse } = require("../middlewares/create-course.middleware")
+const { courseOwner } = require("../middlewares/course-owner.middleware")
 const { protect } = require("../middlewares/protect.middleware")
 
 const router = express.Router()
@@ -18,8 +20,10 @@ router.post("/register", registerController)
 router.post("/login", loginController)
 router.get("/logout", logoutController)
 
-router.post("/create-course", protect, createCourse, createCourseController)
+router.post("/create-course", protect, courseOwner, createCourseController)
 router.get("/courses", protect, getAllCoursesController)
 router.get("/courses/:id", protect, getSingleCoursesController)
+router.post("/courses/:id/edit", protect, courseOwner, editCoursesController)
+router.get("/courses/:id/delete", protect, courseOwner, deleteCoursesController)
 
 module.exports = router

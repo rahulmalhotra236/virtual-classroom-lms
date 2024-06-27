@@ -1,5 +1,5 @@
 const registerModel = require("../models/register.model")
-module.exports.createCourse = async (req, res, next) => {
+module.exports.courseOwner = async (req, res, next) => {
   try {
     if (req.user.role === "teacher") {
       next()

@@ -3,6 +3,7 @@ const courseModel = require("../models/courses.model")
 const registerModel = require("../models/register.model")
 
 module.exports.createCourseController = async (req, res) => {
+  console.log(req.body)
   try {
     //all fields required
     let { title, description, tags, price } = req.body
@@ -46,7 +47,7 @@ module.exports.getAllCoursesController = async (req, res) => {
 
     //find all course
     let courses = await courseModel.find()
-    if (!courses) {
+    if (!courses.length) {
       return res.status(400).json({ message: "no courses found!" })
     }
     res.status(200).json(courses)
@@ -56,6 +57,7 @@ module.exports.getAllCoursesController = async (req, res) => {
       .json({ message: `Error in getAllCoursesController${error.message}` })
   }
 }
+
 module.exports.getSingleCoursesController = async (req, res) => {
   try {
     //check user exist
@@ -77,4 +79,38 @@ module.exports.getSingleCoursesController = async (req, res) => {
       .status(400)
       .json({ message: `Error in getSingleCoursesController ${error.message}` })
   }
+}
+
+module.exports.editCoursesController = async (req, res) => {
+  try {
+    // get fields want to edit
+    const { title, description, tags, price } = req.body
+
+    // Find the course by ID and update it
+    const course = await courseModel.findByIdAndUpdate(req.params.id, {
+      title,
+      description,
+      tags,
+      price,
+    })
+
+    if (!course) {
+      return res.status(404).json({ error: "Course not found" })
+    }
+
+    res.status(200).json(course) // Send back the updated course
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "Server error" })
+  }
+}
+
+module.exports.deleteCoursesController = async (req, res) => {
+  let deletedCourse = await courseModel.findByIdAndDelete(req.params.id)
+
+  if (!deletedCourse) {
+    return res.status(400).json({ message: "no such course found for delete!" })
+  }
+
+  res.status(200).json({ message: "course is deleted successfully!" })
 }
