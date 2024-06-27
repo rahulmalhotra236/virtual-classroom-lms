@@ -114,3 +114,22 @@ module.exports.deleteCoursesController = async (req, res) => {
 
   res.status(200).json({ message: "course is deleted successfully!" })
 }
+
+module.exports.enrollCoursesController = async (req, res) => {
+  let course = await courseModel.findOne({ _id: req.params.id })
+  if (!course) {
+    return res.status(400).json({ message: "no such course found" })
+  }
+
+  let user = await registerModel.findOne({ email: req.user.email })
+  console.log(user)
+  if (!user) {
+    return res.status(400).json({ message: "not such user exist" })
+  }
+
+  user.enrolledCourses.push(user._id)
+  course.enrolledUsers.push(course._id)
+  await user.save()
+  await course.save()
+  res.status(200).json(user)
+}
