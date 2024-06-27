@@ -92,3 +92,13 @@ module.exports.logoutController = (req, res) => {
     })
     .json({ message: "user logged out!" })
 }
+
+module.exports.deleteUserController = async (req, res) => {
+  let deletedUser = await registerModel.findByIdAndDelete(req.params.id)
+
+  if (!deletedUser) {
+    return res.status(400).json({ message: "no such user found for delete!" })
+  }
+
+  res.status(200).json({ message: "user is deleted successfully!" })
+}
