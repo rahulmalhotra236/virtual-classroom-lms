@@ -28,6 +28,13 @@ const userSchema = new mongoose.Schema(
         ref: "Course",
       },
     ],
+
+    enrolledCourses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+    ],
   },
   { timestamps: true }
 )

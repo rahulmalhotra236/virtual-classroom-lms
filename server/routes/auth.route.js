@@ -12,7 +12,10 @@ const {
   editCoursesController,
   deleteCoursesController,
 } = require("../controllers/courses.controller")
-const { userProfileController } = require("../controllers/user.controller")
+const {
+  userProfileController,
+  myCourseController,
+} = require("../controllers/user.controller")
 const { courseOwner } = require("../middlewares/course-owner.middleware")
 const { protect } = require("../middlewares/protect.middleware")
 
@@ -26,6 +29,7 @@ router.get("/:id/delete", deleteUserController)
 
 //user
 router.get("/:id/profile", userProfileController)
+router.get("/:id/my-courses", myCourseController)
 
 //course
 router.post("/create-course", protect, courseOwner, createCourseController)
